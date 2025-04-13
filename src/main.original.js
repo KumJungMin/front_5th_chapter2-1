@@ -27,45 +27,73 @@ function main() {
 }
 
 function render() {
-  // 요소를 탐색하는 역할
   const root = document.getElementById("app");
-  const cont = document.createElement("div");
-  const wrap = document.createElement("div");
-  const hTxt = document.createElement("h1");
+  const container = createContainer();
+  const card = createCardLayout();
 
-  cartItemList = document.createElement("div");
-  cartTotal = document.createElement("div");
-  productSelector = document.createElement("select");
-  addToCartButton = document.createElement("button");
-  stockStatus = document.createElement("div");
+  root.appendChild(container);
+  container.appendChild(card);
+  card.appendChild(createTitle());
+  card.appendChild(createCartItemList());
+  card.appendChild(createCartTotal());
+  card.appendChild(createProductSelector());
+  card.appendChild(createAddToCartButton());
+  card.appendChild(createStockStatus());
+}
 
-  // 스타일 적용
-  cartItemList.id = "cart-items";
-  cartTotal.id = "cart-total";
-  productSelector.id = "product-select";
-  addToCartButton.id = "add-to-cart";
-  stockStatus.id = "stock-status";
-  cont.className = "bg-gray-100 p-8";
-  wrap.className =
+function createContainer() {
+  const container = document.createElement("div");
+  container.className = "bg-gray-100 p-8";
+  return container;
+}
+
+function createCardLayout() {
+  const card = document.createElement("div");
+  card.className =
     "max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8";
-  hTxt.className = "text-2xl font-bold mb-4";
+  return card;
+}
+
+function createTitle() {
+  const title = document.createElement("h1");
+  title.className = "text-2xl font-bold mb-4";
+  title.textContent = "장바구니";
+  return title;
+}
+
+function createCartItemList() {
+  cartItemList = document.createElement("div");
+  cartItemList.id = "cart-items";
+  return cartItemList;
+}
+
+function createCartTotal() {
+  cartTotal = document.createElement("div");
+  cartTotal.id = "cart-total";
   cartTotal.className = "text-xl font-bold my-4";
+  return cartTotal;
+}
+
+function createProductSelector() {
+  productSelector = document.createElement("select");
+  productSelector.id = "product-select";
   productSelector.className = "border rounded p-2 mr-2";
+  return productSelector;
+}
+
+function createAddToCartButton() {
+  addToCartButton = document.createElement("button");
+  addToCartButton.id = "add-to-cart";
   addToCartButton.className = "bg-blue-500 text-white px-4 py-2 rounded";
-  stockStatus.className = "text-sm text-gray-500 mt-2";
-  hTxt.textContent = "장바구니";
   addToCartButton.textContent = "추가";
+  return addToCartButton;
+}
 
-  // ------- 요소에 스타일 적용
-
-  wrap.appendChild(hTxt);
-  wrap.appendChild(cartItemList);
-  wrap.appendChild(cartTotal);
-  wrap.appendChild(productSelector);
-  wrap.appendChild(addToCartButton);
-  wrap.appendChild(stockStatus);
-  cont.appendChild(wrap);
-  root.appendChild(cont);
+function createStockStatus() {
+  stockStatus = document.createElement("div");
+  stockStatus.id = "stock-status";
+  stockStatus.className = "text-sm text-gray-500 mt-2";
+  return stockStatus;
 }
 
 function triggerRandomSales() {
