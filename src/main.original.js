@@ -1,6 +1,3 @@
-// TODO: 상수로 분리
-// 임시메모: price는 보통 제품이나 서비스 1단위당의 금액
-// 임시메모: amount는 전체 계산된 금액, price × 수량
 const products = [
   { id: "p1", name: "상품1", price: 10000, units: 50 },
   { id: "p2", name: "상품2", price: 20000, units: 30 },
@@ -9,18 +6,19 @@ const products = [
   { id: "p5", name: "상품5", price: 25000, units: 10 },
 ];
 
+// TODO: 파일별로 분리
+
 let productSelector, addToCartButton, cartItemList, cartTotal, stockStatus;
-let lastSel,
-  bonusPts = 0,
+let lastSelectedProductId,
+  bonusPoints = 0,
   finalTotal = 0,
   totalItemsInCart = 0; // TODO: Cart를 뺄지 말지 고민
 
 main();
-addEventListener();
 
-// function
 function main() {
   render();
+  addEventListener();
   updateProductSelector();
   calculateCart();
   triggerRandomSales();
@@ -124,10 +122,10 @@ function flashSaleToRandomProduct() {
 }
 
 function suggestProductDiscount() {
-  if (!lastSel) return;
+  if (!lastSelectedProductId) return;
 
   const suggestedItem = products.find(
-    (item) => item.id !== lastSel && item.units > 0,
+    (item) => item.id !== lastSelectedProductId && item.units > 0,
   );
   if (suggestedItem) {
     suggestedItem.price = Math.round(suggestedItem.price * 0.95);
@@ -155,7 +153,7 @@ function addEventListener() {
         createNewCartItem(selectedProduct);
       }
       calculateCart();
-      lastSel = selectedProduct.id;
+      lastSelectedProductId = selectedProduct.id;
     }
   });
 
@@ -349,7 +347,7 @@ function getDiscountRate({ originalTotal, finalTotal, totalItemsInCart }) {
 }
 
 function updateLoyaltyPoints() {
-  bonusPts = Math.floor(finalTotal / 1000);
+  bonusPoints = Math.floor(finalTotal / 1000);
   let points = document.getElementById("loyalty-points");
 
   if (!points) {
@@ -358,7 +356,7 @@ function updateLoyaltyPoints() {
     points.className = "text-blue-500 ml-2";
     cartTotal.appendChild(points);
   }
-  points.textContent = "(포인트: " + bonusPts + ")";
+  points.textContent = "(포인트: " + bonusPoints + ")";
 }
 
 function updateStockStatus() {
